@@ -75,17 +75,29 @@
             // because the page would break if you're not use a SPA router.
             const baseURLA = new URL(window.location.href);
             const baseURL = new URL(window.location.href);
-            if (baseURL.hash != "") {
-                window.history.pushState({}, "", baseURL.hash.substring(1));
 
-                setTimeout(() => {
-                    window.pushS.call(
-                        window.history,
-                        {},
-                        "",
-                        baseURLA.pathname + baseURLA.hash
-                    );
-                }, 100);
+            if (baseURL.origin == "file://" ) {
+                setInterval(50, () =>
+                    [...document.querySelectorAll("a")]
+                        .filter((n) => !n.href.startsWith("#"))
+                        .forEach((n) => (n.href = "#" + n.href))
+                );
+            } else {
+
+            // Unforunatelly I couldn't get it 100% working on file://. 
+            // The pages will work but if you f5 it won't load the page you were last on, it'll reset to the default page. Works everywhere else
+                if (baseURL.hash != "") {
+                    window.history.pushState({}, "", baseURL.hash.substring(1));
+    
+                    setTimeout(() => {
+                        window.pushS.call(
+                            window.history,
+                            {},
+                            "",
+                            baseURLA.pathname + baseURLA.hash
+                        );
+                    }, 100);
+                }
             }
 
             const p = window.history.pushState;

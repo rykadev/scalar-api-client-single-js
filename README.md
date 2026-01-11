@@ -1,13 +1,163 @@
 Cloned from 
 https://github.com/scalar/scalar/tree/main/projects/client-scalar-com
 
+with some modifications in order to output a single .js file and a single .css file, a bit like their scalar api-reference @ https://github.com/scalar/scalar?tab=readme-ov-file#quickstart
+
+
+
+GH Pages:
 https://rykadev.github.io/scalar-api-client-single-js/
 
-with some modifications in order to output a single .js file to use similar to
 
 ```bash
 pnpm i
 pnpm build
 ```
 
-replace ./index.js with 
+
+You can host the code bellow, however, you should probably replace the 
+
+https://rykadev.github.io/scalar-api-client-single-js/index.js 
+https://rykadev.github.io/scalar-api-client-single-js/index.css
+
+and with your own cdn.
+
+
+---
+
+
+
+[absolute.html](https://github.com/rykadev/scalar-api-client-single-js/blob/master/docs/absolute.html)
+
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <title>Scalar API Client</title>
+        <meta
+            name="description"
+            content="An offline first API Client built for OpenAPI"
+        />
+        <meta name="robots" content="index, follow" />
+        <link rel="canonical" href="https://client.scalar.com" />
+        <meta name="author" content="Scalar" />
+        <meta name="generator" content="Scalar" />
+        <meta name="license" content="MIT" />
+        <meta name="application-name" content="Scalar API Client" />
+
+        <!-- OpenGraph Tags -->
+        <meta property="og:url" content="https://client.scalar.com" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Scalar API Client" />
+        <meta
+            property="og:description"
+            content="An offline first API Client built for OpenAPI"
+        />
+        <meta
+            property="og:image"
+            content="https://client.scalar.com/og-image.jpg"
+        />
+
+        <!-- Twitter OpenGraph Tags -->
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta property="twitter:domain" content="client.scalar.com" />
+        <meta property="twitter:url" content="https://client.scalar.com" />
+        <meta name="twitter:title" content="Scalar API Client" />
+        <meta
+            name="twitter:description"
+            content="An offline first API Client built for OpenAPI"
+        />
+        <meta
+            name="twitter:image"
+            content="https://client.scalar.com/og-image.jpg"
+        />
+        <meta name="twitter:site" content="@scalar" />
+
+        <link
+            rel="icon"
+            type="image/svg+xml"
+            href="https://scalar.com/favicon.svg"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            href="https://scalar.com/favicon.png"
+        />
+
+        <!-- Mobile/PWA -->
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-title" content="Scalar API Client" />
+
+        <!-- Additional tags -->
+        <meta name="color-scheme" content="dark light" />
+        <meta name="format-detection" content="telephone=no" />
+      <script type="module" crossorigin src="https://rykadev.github.io/scalar-api-client-single-js/index.js"></script>
+      <link rel="stylesheet" crossorigin href="https://rykadev.github.io/scalar-api-client-single-js/index.css">
+    </head>
+    <body>
+        <div id="scalar-client" class="scalar-app scalar-client"></div>
+
+        <script type="text/javascript" >
+            // This is a very hacky workarount to replace history.pushState based navigation with hash based navigation
+            // because the page would break if you're not use a SPA router.
+            const baseURLA = new URL(window.location.href);
+            const baseURL = new URL(window.location.href);
+
+            if (baseURL.origin == "file://" ) {
+                setInterval(50, () =>
+                    [...document.querySelectorAll("a")]
+                        .filter((n) => !n.href.startsWith("#"))
+                        .forEach((n) => (n.href = "#" + n.href))
+                );
+            } else {
+
+            // Unforunatelly I couldn't get it 100% working on file://. 
+            // The pages will work but if you f5 it won't load the page you were last on, it'll reset to the default page. Works everywhere else
+                if (baseURL.hash != "") {
+                    window.history.pushState({}, "", baseURL.hash.substring(1));
+    
+                    setTimeout(() => {
+                        window.pushS.call(
+                            window.history,
+                            {},
+                            "",
+                            baseURLA.pathname + baseURLA.hash
+                        );
+                    }, 100);
+                }
+            }
+
+            const p = window.history.pushState;
+            window.pushS = window.history.pushState;
+
+            const r = window.history.replaceState;
+            window.history.replaceState = (...args) => {};
+            window.history.pushState = (...args) => {
+                const { pathname } = new URL(args[2]);
+                baseURL.hash = "#" + pathname;
+                args[2] = baseURL.toString();
+                args[0].current = baseURL.pathname + baseURL.hash;
+                baseURL.hash = "#" + args[0].back;
+                args[0].back = baseURL.pathname + baseURL.hash;
+                console.log(JSON.stringify(args));
+                p.call(window.history, ...args);
+            };
+        </script>
+        <script type="module" >
+            Scalar.createApiClientWeb(
+                document.getElementById("scalar-client"),
+                {
+                    //   proxyUrl: 'https://proxy.scalar.com',
+                }
+            );
+        </script>
+    </body>
+</html>
+
+```
