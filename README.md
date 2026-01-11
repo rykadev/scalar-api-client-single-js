@@ -17,10 +17,10 @@ pnpm build
 
 You can host the code bellow, however, you should probably replace the 
 
-https://rykadev.github.io/scalar-api-client-single-js/index.js 
-https://rykadev.github.io/scalar-api-client-single-js/index.css
+- https://rykadev.github.io/scalar-api-client-single-js/index.js 
+- https://rykadev.github.io/scalar-api-client-single-js/index.css
 
-and with your own cdn.
+and with your own cdn files. 
 
 
 ---
