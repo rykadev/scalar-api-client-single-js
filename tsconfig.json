@@ -33,7 +33,7 @@
         "@cloudflare/workers-types/2023-07-01"
     ],
     "exclude": [
-        "dist",
+        "docs",
         "node_modules",
         "**/dist",
         "**/node_modules"
