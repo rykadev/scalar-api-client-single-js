@@ -8,10 +8,11 @@ const absolutehtml = fs.readFileSync(path.join('docs', 'index.html'), 'utf-8').r
 const absolute_filename = 'absolute.html';
 fs.writeFileSync(path.join('docs', absolute_filename), absolutehtml, 'utf-8');
 
-const separator = '\r\n---\r\n\r\n';
+const separator = '---';
 
 const READMEmd = "README.md";
 const text = `${separator}
+
 
 [${absolute_filename}](https://github.com/rykadev/scalar-api-client-single-js/blob/master/docs/${absolute_filename})
 

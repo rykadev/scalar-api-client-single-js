@@ -1,12 +1,13 @@
 Cloned from 
-https://github.com/scalar/scalar/tree/main/projects/client-scalar-com
+- https://github.com/scalar/scalar/tree/main/projects/client-scalar-com
 
 with some modifications in order to output a single .js file and a single .css file, a bit like their scalar api-reference @ https://github.com/scalar/scalar?tab=readme-ov-file#quickstart
 
 
 
 GH Pages:
-https://rykadev.github.io/scalar-api-client-single-js/
+- https://rykadev.github.io/scalar-api-client-single-js/
+- https://rykadev.github.io/scalar-api-client-single-js/#/workspace/default/request/default
 
 
 ```bash
@@ -22,9 +23,7 @@ You can host the code bellow, however, you should probably replace the
 
 and with your own cdn files. 
 
-
 ---
-
 
 
 [absolute.html](https://github.com/rykadev/scalar-api-client-single-js/blob/master/docs/absolute.html)
@@ -152,7 +151,10 @@ and with your own cdn files.
         <script type="module" >
             Scalar.createApiClientWeb(
                 document.getElementById("scalar-client"),
+                localStorage.hasOwnProperty('tag') || localStorage.hasOwnProperty('server') || localStorage.hasOwnProperty('securityScheme') // Note: if you don't do this it'll keep duplicating the API every time you refresh the page
+                ? {} :
                 {
+                    url: 'https://registry.scalar.com/@scalar/apis/galaxy?format=json'
                     //   proxyUrl: 'https://proxy.scalar.com',
                 }
             );

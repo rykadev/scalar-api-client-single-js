@@ -123,7 +123,10 @@
         <script type="module" vite-ignore>
             Scalar.createApiClientWeb(
                 document.getElementById("scalar-client"),
+                localStorage.hasOwnProperty('tag') || localStorage.hasOwnProperty('server') || localStorage.hasOwnProperty('securityScheme') // Note: if you don't do this it'll keep duplicating the API every time you refresh the page
+                ? {} :
                 {
+                    url: 'https://registry.scalar.com/@scalar/apis/galaxy?format=json'
                     //   proxyUrl: 'https://proxy.scalar.com',
                 }
             );
