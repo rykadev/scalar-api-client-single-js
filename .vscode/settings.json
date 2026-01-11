@@ -1,0 +1,10 @@
+{
+    "editor.defaultFormatter": null,
+    "editor.tabSize": 4,
+    "editor.insertSpaces": true, // Ensures spaces are used instead of tabs
+    "editor.detectIndentation": false, // Prevents VS Code from overriding your settings
+    "prettier.tabWidth": 4,
+    "[typescript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    }
+}
